@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart - AutoParts Hub</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #020617);
+  color: white;
+}
+
+/* Container */
+.container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #38bdf8;
+  font-size: 32px;
+  margin-bottom: 25px;
+}
+
+/* CART BOX */
+.cart-box {
+  background: rgba(255,255,255,0.06);
+  border-radius: 18px;
+  padding: 20px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* ITEM */
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  margin-bottom: 10px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+  transition: 0.2s;
+}
+
+.cart-item:hover {
+  background: rgba(255,255,255,0.07);
+}
+
+/* LEFT SIDE */
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.product-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.item-name {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* RIGHT SIDE */
+.right-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.item-price {
+  color: #22c55e;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* VERY SMALL QTY BUTTONS */
+.qty-box {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255,255,255,0.08);
+  padding: 2px 6px;
+  border-radius: 8px;
+}
+
+/* SMALL + - BUTTONS */
+.qty-box button {
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  border: none;
+  border-radius: 4px;
+  background: #38bdf8;
+  color: black;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qty-box button:hover {
+  background: #0ea5e9;
+}
+
+.qty-box span {
+  min-width: 16px;
+  text-align: center;
+  font-size: 13px;
+}
+
+/* TOTAL */
+.total {
+  text-align: right;
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #facc15;
+}
+
+/* BUTTONS */
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn {
+  padding: 12px 18px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.back-btn {
+  background: #38bdf8;
+  color: black;
+}
+
+.checkout-btn {
+  background: #22c55e;
+  color: black;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+/* EMPTY */
+.empty {
+  text-align: center;
+  padding: 30px;
+  color: #94a3b8;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .right-section {
+    align-items: flex-start;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>🛒 Your Cart</h1>
+
+  <div class="cart-box" id="cart-container"></div>
+
+  <div class="total" id="total-price">Total: ₹0</div>
+
+  <div class="buttons">
+    <a href="index.html" class="btn back-btn">⬅ Continue Shopping</a>
+    <button class="btn checkout-btn" onclick="goToCheckout()">Checkout ➡</button>
+  </div>
+
+</div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+const container = document.getElementById("cart-container");
+const totalBox = document.getElementById("total-price");
+
+/* DISPLAY CART */
+function displayCart() {
+
+  if (cart.length === 0) {
+    container.innerHTML = `<div class="empty">Your cart is empty 😔</div>`;
+    totalBox.innerText = "Total: ₹0";
+    return;
+  }
+
+  let total = 0;
+  container.innerHTML = "";
+
+  cart.forEach((item, index) => {
+
+    total += item.price * item.quantity;
+
+    container.innerHTML += `
+      <div class="cart-item">
+
+        <div class="left-section">
+          <img src="${item.image}" class="product-img">
+          <div class="item-name">${item.name}</div>
+        </div>
+
+        <div class="right-section">
+
+          <div class="item-price">
+            ₹${item.price * item.quantity}
+          </div>
+
+          <div class="qty-box">
+            <button onclick="decreaseQty(${index})">-</button>
+            <span>${item.quantity}</span>
+            <button onclick="increaseQty(${index})">+</button>
+          </div>
+
+        </div>
+
+      </div>
+    `;
+  });
+
+  totalBox.innerText = "Total: ₹" + total;
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+/* + */
+function increaseQty(index) {
+  cart[index].quantity += 1;
+  displayCart();
+}
+
+/* - */
+function decreaseQty(index) {
+  cart[index].quantity -= 1;
+
+  if (cart[index].quantity <= 0) {
+    cart.splice(index, 1);
+  }
+
+  displayCart();
+}
+
+/* CHECKOUT */
+function goToCheckout() {
+  if (cart.length === 0) {
+    alert("Your cart is empty 😔");
+    return;
+  }
+
+  window.location.href = "checkout.html";
+}
+
+displayCart();
+</script>
+
+</body>
+</html>

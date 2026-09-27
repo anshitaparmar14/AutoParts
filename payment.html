@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Payment - AutoParts Hub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:#0f172a;
+  color:white;
+}
+
+.container{
+  max-width:520px;
+  margin:40px auto;
+  padding:20px;
+}
+
+.title-main{
+  text-align:center;
+  color:#38bdf8;
+  margin-bottom:20px;
+}
+
+.card{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:14px;
+  padding:18px;
+  margin-bottom:15px;
+}
+
+.title{
+  font-size:14px;
+  margin-bottom:12px;
+  color:#38bdf8;
+}
+
+.option{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.1);
+  margin-bottom:10px;
+  cursor:pointer;
+}
+
+.option:hover{
+  border-color:#38bdf8;
+  background:rgba(56,189,248,0.05);
+}
+
+.option input{
+  accent-color:#38bdf8;
+  transform:scale(1.2);
+}
+
+input[type="text"]{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.15);
+  background:rgba(255,255,255,0.03);
+  color:white;
+  margin-top:8px;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+
+.total{
+  border-top:1px solid rgba(255,255,255,0.2);
+  padding-top:10px;
+  font-size:18px;
+  color:#facc15;
+}
+
+.btn{
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:black;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.hidden{
+  display:none;
+}
+
+.upi-btn{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:rgba(255,255,255,0.05);
+  color:white;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+}
+
+.upi-btn:hover{
+  background:#38bdf8;
+  color:black;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2 class="title-main">💳 Secure Payment</h2>
+
+<div class="card">
+  <div class="title">Select Payment Method</div>
+
+  <label class="option">
+    <input type="radio" name="pay" value="upi" onclick="show('upi')">
+    UPI Payment
+  </label>
+
+  <label class="option">
+    <input type="radio" name="pay" value="card" onclick="show('card')">
+    Card Payment
+  </label>
+
+  <label class="option">
+    <input type="radio" name="pay" value="net" onclick="show('net')">
+    Net Banking
+  </label>
+
+  <label class="option">
+    <input type="radio" name="pay" value="qr" onclick="show('qr')">
+    QR Code Payment
+  </label>
+
+  <label class="option">
+    <input type="radio" name="pay" value="cod" onclick="show('cod')">
+    Cash on Delivery
+  </label>
+</div>
+
+<div class="card">
+  <div class="title">Your Items</div>
+  <div id="items"></div>
+</div>
+
+<!-- UPI -->
+<div class="card hidden" id="upi">
+  <div class="title">UPI Payment</div>
+
+  <div style="display:flex; gap:10px; margin-bottom:10px;">
+    <button onclick="selectUPI('gpay')" class="upi-btn">
+      <img src="https://img.icons8.com/color/48/google-pay.png" width="24"> GPay
+    </button>
+
+    <button onclick="selectUPI('paytm')" class="upi-btn">
+      <img src="https://img.icons8.com/color/48/paytm.png" width="24"> Paytm
+    </button>
+
+    <button onclick="selectUPI('phonepe')" class="upi-btn">
+      <img src="https://img.icons8.com/color/48/phonepe.png" width="24"> PhonePe
+    </button>
+  </div>
+
+  <input type="text" id="upiInput" placeholder="Enter UPI ID">
+</div>
+
+<!-- CARD -->
+<div class="card hidden" id="card">
+  <div class="title">Card</div>
+  <input type="text" placeholder="Card Number">
+</div>
+
+<!-- NET -->
+<div class="card hidden" id="net">
+  <div class="title">Bank</div>
+  <input type="text" placeholder="Bank Name">
+</div>
+
+<!-- QR -->
+<div class="card hidden" id="qr">
+  <div class="title">Scan QR Code</div>
+
+  <!-- 🔴 PUT YOUR OWN QR IMAGE LINK BELOW -->
+<img src="img/qr.jpeg" width="200" style="display:block;margin:auto;">
+
+  <p style="text-align:center; margin-top:10px;">Scan & Pay</p>
+</div>
+
+<!-- COD -->
+<div class="card hidden" id="cod">
+  <div class="title">COD</div>
+  <p>Pay on delivery</p>
+</div>
+
+<div class="card">
+  <div class="title">Summary</div>
+
+  <div class="row">
+    <span>Subtotal</span>
+    <span id="sub">₹0</span>
+  </div>
+
+  <div class="row">
+    <span>GST (18%)</span>
+    <span id="gst">₹0</span>
+  </div>
+
+  <div class="total">
+    Total: <span id="total">₹0</span>
+  </div>
+</div>
+
+<button class="btn" onclick="pay()">Pay Now</button>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+ apiKey: "AIzaSyBBgKgDmd36zo0pRXRczMcBSzArK7OEJDo",
+ authDomain: "autoparts-7f16a.firebaseapp.com",
+ projectId: "autoparts-7f16a",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let order = JSON.parse(localStorage.getItem("finalOrder"));
+
+let itemsBox = document.getElementById("items");
+
+let subtotal = 0;
+
+order.cart.forEach(item=>{
+  let total = item.price * item.quantity;
+  subtotal += total;
+
+  itemsBox.innerHTML += `
+    <div class="row">
+      <span>${item.name} (x${item.quantity})</span>
+      <span>₹${total}</span>
+    </div>
+  `;
+});
+
+let gst = subtotal * 0.18;
+let final = subtotal + gst;
+
+document.getElementById("sub").innerText="₹"+subtotal;
+document.getElementById("gst").innerText="₹"+gst.toFixed(2);
+document.getElementById("total").innerText="₹"+final.toFixed(2);
+
+let selectedUPI = "";
+
+window.selectUPI = function(type){
+  selectedUPI = type;
+  document.getElementById("upiInput").value = type + "@upi";
+}
+
+window.show = function(type){
+  ["upi","card","net","cod","qr"].forEach(id=>{
+    document.getElementById(id).classList.add("hidden");
+  });
+  document.getElementById(type).classList.remove("hidden");
+}
+
+window.pay = async function(){
+
+  let selected = document.querySelector('input[name="pay"]:checked');
+
+  if(!selected){
+    alert("Select payment method");
+    return;
+  }
+
+  if(selected.value === "upi" && !document.getElementById("upiInput").value){
+    alert("Enter UPI ID");
+    return;
+  }
+
+  try{
+    await addDoc(collection(db,"orders"),{
+      ...order,
+      subtotal,
+      gst,
+      total:final,
+      payment:selected.value,
+      upiApp:selectedUPI || null,
+      createdAt:new Date()
+    });
+
+    let historyOrder = {
+      id: "ORD-" + Date.now(),
+      date: new Date().toLocaleString(),
+      items: order.cart,
+      total: final,
+      status: "Completed"
+    };
+
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    orders.push(historyOrder);
+
+    localStorage.setItem("orders", JSON.stringify(orders));
+
+    alert("🎉 Payment Successful & Order Saved");
+
+    localStorage.removeItem("cart");
+
+    window.location.href = "invoice.html";
+
+  }catch(e){
+    alert("Error saving order");
+    console.error(e);
+  }
+}
+
+</script>
+
+</body>
+</html>

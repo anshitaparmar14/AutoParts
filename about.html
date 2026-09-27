@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About Us - AutoParts Hub</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f8fafc;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: #1e40af;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 20px;
+    }
+
+    /* Container */
+    .about-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #1e40af;
+    }
+
+    p {
+      color: #334155;
+      line-height: 1.6;
+    }
+
+    /* Cards */
+    .cards {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      width: 250px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    /* Back Button */
+    .back-btn {
+      margin-top: 30px;
+      background: #1e40af;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="navbar">AutoParts Hub</div>
+
+  <div class="about-container">
+
+    <h1>About Us</h1>
+
+    <p>
+      AutoParts Hub is a team of passionate auto experts committed to delivering top-quality spare parts at the most competitive prices.
+      Founded in 2020, we've quickly grown to become India's most trusted online auto parts retailer.
+    </p>
+
+    <p>
+      With direct tie-ups with leading brands and manufacturers, we ensure 100% authenticity and customer satisfaction.
+      Our mission is to make quality auto parts accessible and affordable for everyone.
+    </p>
+
+    <div class="cards">
+
+      <div class="card">
+        <h3>🚗 Our Mission</h3>
+        <p>Provide quality auto parts at affordable prices across India.</p>
+      </div>
+
+      <div class="card">
+        <h3>⭐ Why Choose Us</h3>
+        <p>Trusted, genuine products, fast delivery, and great support.</p>
+      </div>
+
+      <div class="card">
+        <h3>📦 Fast Delivery</h3>
+        <p>Quick and safe delivery so your vehicle keeps moving.</p>
+      </div>
+
+    </div>
+
+    <button class="back-btn" onclick="goBack()">⬅ Back to Home</button>
+
+  </div>
+
+  <script>
+    function goBack() {
+      window.location.href = "index.html"; // change if your main file name is different
+    }
+  </script>
+
+</body>
+</html>

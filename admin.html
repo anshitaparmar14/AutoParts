@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AutoParts Admin Panel</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:
+  linear-gradient(rgba(2,6,23,.95),rgba(15,23,42,.96)),
+  url('./img/car.jpg') center/cover fixed;
+  min-height:100vh;
+  color:white;
+  overflow-x:hidden;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#38bdf8;
+  border-radius:20px;
+}
+
+/* HEADER */
+
+.topbar{
+  width:100%;
+  padding:22px 35px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  backdrop-filter:blur(18px);
+  background:rgba(15,23,42,.6);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  position:sticky;
+  top:0;
+  z-index:999;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.logo-icon{
+  width:52px;
+  height:52px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#38bdf8,#0ea5e9);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:24px;
+  box-shadow:0 10px 30px rgba(56,189,248,.3);
+}
+
+.logo h1{
+  font-size:28px;
+  font-weight:700;
+}
+
+.logo p{
+  font-size:13px;
+  color:#94a3b8;
+}
+
+.add-btn{
+  border:none;
+  padding:13px 24px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:black;
+  font-weight:700;
+  cursor:pointer;
+  transition:.35s;
+  box-shadow:0 10px 25px rgba(34,197,94,.25);
+}
+
+.add-btn:hover{
+  transform:translateY(-3px) scale(1.03);
+}
+
+/* DASHBOARD */
+
+.dashboard{
+  padding:35px;
+}
+
+/* STATS */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:18px;
+  margin-bottom:35px;
+}
+
+.stat-card{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(18px);
+  border-radius:24px;
+  padding:24px;
+  position:relative;
+  overflow:hidden;
+}
+
+.stat-card h3{
+  font-size:15px;
+  color:#cbd5e1;
+  margin-bottom:10px;
+}
+
+.stat-card h2{
+  font-size:32px;
+  color:#38bdf8;
+}
+
+/* PRODUCTS */
+
+.section-title{
+  font-size:24px;
+  margin-bottom:22px;
+  color:#38bdf8;
+}
+
+#list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:22px;
+}
+
+/* PRODUCT CARD */
+
+.card{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(20px);
+  border-radius:28px;
+  overflow:hidden;
+  transition:.4s;
+  position:relative;
+}
+
+.card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 20px 35px rgba(0,0,0,.35);
+}
+
+.card-img{
+  width:100%;
+  height:200px;
+  overflow:hidden;
+  background:white;
+}
+
+.card-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.card-content{
+  padding:20px;
+}
+
+.card-content h3{
+  font-size:20px;
+  margin-bottom:8px;
+}
+
+.category{
+  font-size:13px;
+  color:#94a3b8;
+  margin-bottom:14px;
+  text-transform:uppercase;
+}
+
+.price-stock{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.price{
+  color:#facc15;
+  font-size:22px;
+  font-weight:700;
+}
+
+.stock{
+  background:rgba(34,197,94,.15);
+  color:#4ade80;
+  padding:7px 14px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:600;
+}
+
+.btn-group{
+  display:flex;
+  gap:12px;
+}
+
+.btn{
+  flex:1;
+  border:none;
+  padding:12px;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:700;
+  transition:.3s;
+}
+
+.plus{
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:black;
+}
+
+.minus{
+  background:linear-gradient(135deg,#ef4444,#dc2626);
+  color:white;
+}
+
+.btn:hover{
+  transform:scale(1.04);
+}
+
+/* ORDER SECTION */
+
+.order-section{
+  margin-top:60px;
+}
+
+.orders-container{
+  display:grid;
+  gap:25px;
+}
+
+.order-card{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:24px;
+  padding:25px;
+  backdrop-filter:blur(18px);
+}
+
+.order-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.order-id{
+  color:#38bdf8;
+  font-size:18px;
+  font-weight:700;
+}
+
+.user-info{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.user-box{
+  background:rgba(255,255,255,.04);
+  padding:14px;
+  border-radius:14px;
+}
+
+.user-box span{
+  display:block;
+  color:#94a3b8;
+  font-size:13px;
+  margin-bottom:5px;
+}
+
+.user-box strong{
+  color:white;
+}
+
+.order-items{
+  margin-top:20px;
+}
+
+.order-item{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  background:rgba(255,255,255,.04);
+  padding:12px;
+  border-radius:14px;
+  margin-bottom:12px;
+}
+
+.order-item img{
+  width:70px;
+  height:70px;
+  object-fit:cover;
+  border-radius:12px;
+  background:white;
+}
+
+.order-item-info{
+  flex:1;
+}
+
+.order-item-info h4{
+  margin-bottom:5px;
+}
+
+.order-total{
+  margin-top:18px;
+  font-size:22px;
+  color:#facc15;
+  font-weight:700;
+}
+
+.status-box{
+  margin-top:20px;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.status-select{
+  flex:1;
+  min-width:200px;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  background:#0f172a;
+  color:white;
+}
+
+.update-btn{
+  border:none;
+  padding:12px 20px;
+  border-radius:12px;
+  background:#38bdf8;
+  color:black;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.empty{
+  text-align:center;
+  color:#94a3b8;
+  padding:40px;
+}
+
+/* MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  padding:20px;
+}
+
+.modal-box{
+  width:100%;
+  max-width:500px;
+  background:#111827;
+  border-radius:28px;
+  padding:28px;
+}
+
+.modal-box h2{
+  margin-bottom:20px;
+  color:#38bdf8;
+}
+
+.modal-box input,
+.modal-box textarea{
+  width:100%;
+  margin-bottom:15px;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  background:#0f172a;
+  color:white;
+  outline:none;
+}
+
+.modal-box textarea{
+  resize:none;
+  height:100px;
+}
+
+.modal-actions{
+  display:flex;
+  gap:12px;
+}
+
+.modal-actions button{
+  flex:1;
+  border:none;
+  padding:14px;
+  border-radius:14px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.save-btn{
+  background:#22c55e;
+  color:black;
+}
+
+.close-btn{
+  background:#ef4444;
+  color:white;
+}
+
+@media(max-width:768px){
+
+  .topbar{
+    padding:18px;
+  }
+
+  .dashboard{
+    padding:18px;
+  }
+
+  .logo h1{
+    font-size:22px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+
+  <div class="logo">
+
+    <div class="logo-icon">
+      ⚙
+    </div>
+
+    <div>
+      <h1>AutoParts Admin</h1>
+      <p>Premium Stock & Order Management</p>
+    </div>
+
+  </div>
+
+  <button class="add-btn" onclick="openModal()">
+    + Add Product
+  </button>
+
+</div>
+
+<div class="dashboard">
+
+  <div class="stats">
+
+    <div class="stat-card">
+      <h3>Total Products</h3>
+      <h2 id="totalProducts">0</h2>
+    </div>
+
+    <div class="stat-card">
+      <h3>Total Stock</h3>
+      <h2 id="totalStock">0</h2>
+    </div>
+
+    <div class="stat-card">
+      <h3>Total Orders</h3>
+      <h2 id="totalOrders">0</h2>
+    </div>
+
+  </div>
+
+  <h2 class="section-title">
+    🚘 AutoParts Inventory
+  </h2>
+
+  <div id="list"></div>
+
+  <div class="order-section">
+
+    <h2 class="section-title">
+      📦 Customer Orders
+    </h2>
+
+    <div class="orders-container" id="ordersContainer"></div>
+
+  </div>
+
+</div>
+
+<div class="modal" id="productModal">
+
+  <div class="modal-box">
+
+    <h2>Add New Product</h2>
+
+    <input type="text" id="newName" placeholder="Product Name">
+
+    <input type="number" id="newPrice" placeholder="Price">
+
+    <input type="number" id="newStock" placeholder="Stock">
+
+    <input type="text" id="newCategory" placeholder="Category">
+
+    <input type="text" id="newImage" placeholder="./img/product.png">
+
+    <textarea id="newDescription" placeholder="Description"></textarea>
+
+    <div class="modal-actions">
+
+      <button class="save-btn" onclick="addProduct()">
+        Save Product
+      </button>
+
+      <button class="close-btn" onclick="closeModal()">
+        Cancel
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+/* DEFAULT PRODUCTS */
+
+let defaultProducts = [
+
+  {
+    id: 1,
+    name: "Premium Brake Pads",
+    category: "Brakes",
+    price: 1499,
+    image: "./img/breakpad.png",
+    description: "Brake pads",
+    stock: 2
+  },
+
+  {
+    id: 2,
+    name: "Suspension Coil Springs",
+    category: "Suspension",
+    price: 2999,
+    image: "./img/Suspension.png",
+    description: "Coil springs",
+    stock: 8
+  },
+
+  {
+    id: 3,
+    name: "Engine Oil Filter",
+    category: "Engine",
+    price: 399,
+    image: "./img/oilfilter.png",
+    description: "Oil filter",
+    stock: 5
+  },
+
+  {
+    id: 4,
+    name: "Transmission Fluid Kit",
+    category: "Transmission",
+    price: 1799,
+    image: "./img/oilkit.jpg",
+    description: "Fluid kit",
+    stock: 3
+  },
+
+  {
+    id: 5,
+    name: "LED Headlight Set",
+    category: "Lighting",
+    price: 3499,
+    image: "./img/sp.png",
+    description: "LED headlights",
+    stock: 7
+  },
+
+  {
+    id: 6,
+    name: "Performance Exhaust System",
+    category: "Exhaust",
+    price: 8999,
+    image: "./img/exhaust.png",
+    description: "Exhaust system",
+    stock: 1
+  }
+
+];
+
+/* SAFE PRODUCT LOAD */
+
+let products = [];
+
+let savedProducts =
+JSON.parse(localStorage.getItem("products"));
+
+if(!savedProducts){
+
+  products = defaultProducts;
+
+  localStorage.setItem(
+    "products",
+    JSON.stringify(defaultProducts)
+  );
+
+}
+else{
+
+  savedProducts = savedProducts.map(saved => {
+
+    let defaultItem =
+    defaultProducts.find(d => d.id == saved.id);
+
+    return {
+
+      ...saved,
+
+      image:
+      saved.image &&
+      saved.image.trim() !== ""
+      ? saved.image
+      : defaultItem?.image || "./img/product.png"
+
+    };
+
+  });
+
+  products = savedProducts;
+
+  localStorage.setItem(
+    "products",
+    JSON.stringify(products)
+  );
+
+}
+
+/* SAVE PRODUCTS */
+
+function saveProducts(){
+
+  localStorage.setItem(
+    "products",
+    JSON.stringify(products)
+  );
+
+}
+
+/* RENDER PRODUCTS */
+
+const container = document.getElementById("list");
+
+function renderAdmin(){
+
+  container.innerHTML = "";
+
+  let totalStock = 0;
+
+  products.forEach(product => {
+
+    totalStock += product.stock;
+
+    container.innerHTML += `
+
+      <div class="card">
+
+        <div class="card-img">
+          <img src="${product.image}"
+          onerror="this.src='./img/product.png'">
+        </div>
+
+        <div class="card-content">
+
+          <div class="category">
+            ${product.category}
+          </div>
+
+          <h3>${product.name}</h3>
+
+          <div class="price-stock">
+
+            <div class="price">
+              ₹${product.price}
+            </div>
+
+            <div class="stock">
+              ${product.stock} In Stock
+            </div>
+
+          </div>
+
+          <div class="btn-group">
+
+            <button class="btn plus"
+            onclick="updateStock(${product.id},1)">
+              ➕ Add
+            </button>
+
+            <button class="btn minus"
+            onclick="updateStock(${product.id},-1)">
+              ➖ Remove
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+  document.getElementById("totalProducts").innerText =
+  products.length;
+
+  document.getElementById("totalStock").innerText =
+  totalStock;
+
+}
+
+/* UPDATE STOCK */
+
+window.updateStock = function(id, change){
+
+  let product = products.find(p => p.id === id);
+
+  if(!product) return;
+
+  product.stock += change;
+
+  if(product.stock < 0){
+    product.stock = 0;
+  }
+
+  saveProducts();
+
+  renderAdmin();
+
+}
+
+/* MODAL */
+
+function openModal(){
+  document.getElementById("productModal").style.display = "flex";
+}
+
+function closeModal(){
+  document.getElementById("productModal").style.display = "none";
+}
+
+window.openModal = openModal;
+window.closeModal = closeModal;
+
+/* ADD PRODUCT */
+
+window.addProduct = function(){
+
+  let name = document.getElementById("newName").value;
+  let price = document.getElementById("newPrice").value;
+  let stock = document.getElementById("newStock").value;
+  let category = document.getElementById("newCategory").value;
+  let image = document.getElementById("newImage").value;
+  let description = document.getElementById("newDescription").value;
+
+  if(!name || !price || !stock || !category || !image){
+
+    alert("Please fill all fields");
+    return;
+
+  }
+
+  let newProduct = {
+
+    id: Date.now(),
+    name,
+    category,
+    price:Number(price),
+    image,
+    description,
+    stock:Number(stock)
+
+  };
+
+  products.push(newProduct);
+
+  saveProducts();
+
+  renderAdmin();
+
+  closeModal();
+
+  alert("✅ Product Added Successfully");
+
+}
+
+/* ORDERS */
+
+function renderOrders(){
+
+  let orders =
+  JSON.parse(localStorage.getItem("orders")) || [];
+
+  let container =
+  document.getElementById("ordersContainer");
+
+  document.getElementById("totalOrders").innerText =
+  orders.length;
+
+  if(orders.length === 0){
+
+    container.innerHTML = `
+      <div class="empty">
+        No customer orders yet
+      </div>
+    `;
+
+    return;
+  }
+
+  let displayOrders = [...orders].reverse();
+
+  container.innerHTML = "";
+
+  displayOrders.forEach((order,index) => {
+
+    let itemsHTML = "";
+
+    order.items.forEach(item => {
+
+      itemsHTML += `
+
+        <div class="order-item">
+
+          <img src="${item.image}"
+          onerror="this.src='./img/product.png'">
+
+          <div class="order-item-info">
+
+            <h4>${item.name}</h4>
+
+            <p>Qty: ${item.quantity || 1}</p>
+
+          </div>
+
+        </div>
+
+      `;
+
+    });
+
+    container.innerHTML += `
+
+      <div class="order-card">
+
+        <div class="order-top">
+
+          <div class="order-id">
+            ${order.id}
+          </div>
+
+          <div>
+            ${order.date}
+          </div>
+
+        </div>
+
+        <div class="user-info">
+
+          <div class="user-box">
+            <span>Customer Email</span>
+            <strong>
+              ${order.userEmail || "Not Available"}
+            </strong>
+          </div>
+
+          <div class="user-box">
+            <span>Phone Number</span>
+            <strong>
+              ${order.phone || "Not Available"}
+            </strong>
+          </div>
+
+          <div class="user-box">
+            <span>Delivery Address</span>
+            <strong>
+              ${order.address || "Not Available"}
+            </strong>
+          </div>
+
+        </div>
+
+        <div class="order-items">
+          ${itemsHTML}
+        </div>
+
+        <div class="order-total">
+          ₹${order.total}
+        </div>
+
+        <div class="status-box">
+
+          <select
+          class="status-select"
+          id="status-${order.id}">
+
+            <option value="Order Placed"
+            ${order.status==="Order Placed"?"selected":""}>
+            Order Placed
+            </option>
+
+            <option value="Packed"
+            ${order.status==="Packed"?"selected":""}>
+            Packed
+            </option>
+
+            <option value="Out For Delivery"
+            ${order.status==="Out For Delivery"?"selected":""}>
+            Out For Delivery
+            </option>
+
+            <option value="Delivered"
+            ${order.status==="Delivered"?"selected":""}>
+            Delivered
+            </option>
+
+          </select>
+
+          <button
+          class="update-btn"
+          onclick="updateOrderStatus('${order.id}')">
+
+            Update Status
+
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+/* UPDATE ORDER STATUS */
+
+window.updateOrderStatus = function(orderId){
+
+  let orders =
+  JSON.parse(localStorage.getItem("orders")) || [];
+
+  let newStatus =
+  document.getElementById(`status-${orderId}`).value;
+
+  let order =
+  orders.find(o => o.id === orderId);
+
+  if(order){
+
+    order.status = newStatus;
+
+    localStorage.setItem(
+      "orders",
+      JSON.stringify(orders)
+    );
+
+    alert("✅ Order Status Updated");
+
+    renderOrders();
+
+  }
+
+}
+
+/* START */
+
+renderAdmin();
+
+renderOrders();
+
+</script>
+
+</body>
+</html>
